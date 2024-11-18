@@ -7,7 +7,6 @@ from datetime import datetime
 import csv
 import requests
 
-
 WEATHER_API_KEY = "f828caa5030c02984d4cc6b0c2b778f8"
 
 # URL of the page
@@ -15,6 +14,9 @@ url = 'https://www.delfinub.cz/aktualni-obsazenost'
 
 chrome_options = Options()
 chrome_options.add_argument('--headless')
+
+# Initialize the current date
+current_date = datetime.now().date()
 
 # Sauna timetable (adjust according to your specific case)
 timetable = {
@@ -84,45 +86,73 @@ def get_current_session():
             return "open", session_type
     return "closed", None
 
+def create_new_csv():
+    today_date = datetime.now().strftime("%Y%m%d%H%M%S")
+    file_name = f"sauna_data_{today_date}.csv"
+    with open(file_name, mode="a", newline="") as file:
+        writer = csv.writer(file)
+        # Write the header row
+        writer.writerow(["timestamp", "day", "session_type", "persons_count", 
+                         "temperature_home", "weather_description_home", 
+                         "temperature_sauna", "weather_description_sauna", 
+                         "national_holiday"])
+    print(f"New log file created: {file_name}")
+    return file_name
+
 driver = webdriver.Chrome(options=chrome_options)
+
+# Create the first CSV file
+file_name = create_new_csv()
+
+# Main loop
 while True:
+    # Get the current date
+    new_date = datetime.now().date()
+
+    # Check if the day has changed
+    if new_date != current_date:
+        current_date = new_date
+        # Create a new CSV file for the new day
+        file_name = create_new_csv()
+
+    today_date = datetime.now().strftime("%Y%m%d%H%M%S")
+
     session_status, session_type = get_current_session()
     if session_status == "open":
-        csv_date = datetime.now().strftime("%Y%m%d%H%M%S")
-        # Open CSV to log data
-        with open(f"sauna_data_{csv_date}.csv", mode="a", newline="") as file:
-            writer = csv.writer(file)
-            writer.writerow(["timestamp", "day", "session_type", "persons_count", "temperature_home", "weather_description_home", "temperature_sauna", "weather_description_sauna"])
-            file.close()
-
-            while True:
-                driver.get(url)  # Load the webpage
-                time.sleep(5)  # Allow the page to fully load
-                try:
-                    persons_div = driver.find_element(By.XPATH, '//*[@id="snippet-container-default-widget-5011d2eee6b2fe3ef8b4e4abcd9a742f-widgetsnippet"]/div/div/div[3]/div/div/div/div')
-                    number = persons_div.text.strip()
-                    weather_home = get_weather(49.03317655577836, 17.656029372771396) # Weather at home
-                    weather_sauna = get_weather(49.02044866857781, 17.649074144949278) # Weather at sauna
-                    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    holiday = is_national_holiday(datetime.now())
-                    day = datetime.now().strftime("%A")
-                    temperature_home = weather_home["temperature"] if weather_home else "N/A"
-                    weather_desc_home = weather_home["description"] if weather_home else "N/A"
-                    temperature_sauna = weather_sauna["temperature"] if weather_sauna else "N/A"
-                    weather_desc_sauna = weather_sauna["description"] if weather_sauna else "N/A"
-                    holiday_status = "Yes" if holiday else "No"
-                    print(
-                        f"{timestamp} - {day} - {session_type}: {number} persons, {temperature_home}°C, {weather_desc_home}, {temperature_sauna}°C, {weather_desc_sauna}, Holiday: {holiday_status}"
-                    )
-                    with open(f"sauna_data_{csv_date}.csv", mode="a", newline="") as file:
-                        writer = csv.writer(file)
-                        writer.writerow([timestamp, day, session_type, number, temperature_home, weather_desc_home, temperature_sauna, weather_desc_sauna, holiday_status])
-                        file.close()
-                except Exception as e:
-                    print(f"Error scraping data: {e}")
-                # Wait 60 seconds before the next check
-                time.sleep(55)
+        driver.get(url)  # Load the webpage
+        time.sleep(5)  # Allow the page to fully load
+        try:
+            persons_div = driver.find_element(By.XPATH, '//*[@id="snippet-container-default-widget-5011d2eee6b2fe3ef8b4e4abcd9a742f-widgetsnippet"]/div/div/div[3]/div/div/div/div')
+            number = persons_div.text.strip()
+        except Exception as e:
+            print(f"Error scraping data: {e}")
         # Close the browser
         driver.quit()
     else:
         print("Sauna is closed.")
+        number = 0
+        session_type = "closed"
+    try:
+        weather_home = get_weather(49.03317655577836, 17.656029372771396) # Weather at home
+        weather_sauna = get_weather(49.02044866857781, 17.649074144949278) # Weather at sauna
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        holiday = is_national_holiday(datetime.now())
+        day = datetime.now().strftime("%A")
+        temperature_home = weather_home["temperature"] if weather_home else "N/A"
+        weather_desc_home = weather_home["description"] if weather_home else "N/A"
+        temperature_sauna = weather_sauna["temperature"] if weather_sauna else "N/A"
+        weather_desc_sauna = weather_sauna["description"] if weather_sauna else "N/A"
+        holiday_status = "Yes" if holiday else "No"
+    except:
+        print("Something went wrong.")
+
+    print(
+        f"{timestamp} - {day} - {session_type}: {number} persons, {temperature_home}°C, {weather_desc_home}, {temperature_sauna}°C, {weather_desc_sauna}, Holiday: {holiday_status}"
+    )
+    with open(file_name, mode="a", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow([timestamp, day, session_type, number, temperature_home, weather_desc_home, temperature_sauna, weather_desc_sauna, holiday_status])
+        file.close()
+    
+    # Wait 220 seconds before the next check
+    time.sleep(220)
