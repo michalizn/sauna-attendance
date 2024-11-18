@@ -1,6 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options
 import time
 from datetime import datetime
 import csv
@@ -11,8 +11,8 @@ WEATHER_API_KEY = "f828caa5030c02984d4cc6b0c2b778f8"
 # URL of the page
 url = 'https://www.delfinub.cz/aktualni-obsazenost'
 
-chrome_options = Options()
-chrome_options.add_argument('--headless')
+firefox_options = Options()
+firefox_options.add_argument('--headless')
 
 # Initialize the current date
 current_date = datetime.now().date()
@@ -98,7 +98,7 @@ def create_new_csv():
     print(f"New log file created: {file_name}")
     return file_name
 
-driver = webdriver.Chrome(options=chrome_options)
+driver = webdriver.Firefox(options=firefox_options)
 
 # Create the first CSV file
 file_name = create_new_csv()
