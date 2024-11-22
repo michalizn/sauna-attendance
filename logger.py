@@ -92,7 +92,7 @@ def create_new_csv():
     with open(file_name, mode="a", newline="") as file:
         writer = csv.writer(file)
         # Write the header row
-        writer.writerow(["timestamp", "day", "session_type", "persons_count_sauna", "persons_count_pool" 
+        writer.writerow(["timestamp", "day", "session_type", "persons_count_sauna", "persons_count_pool",
                          "temperature_home", "weather_description_home", 
                          "temperature_sauna", "weather_description_sauna", 
                          "national_holiday"])
