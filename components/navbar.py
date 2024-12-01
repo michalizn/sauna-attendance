@@ -7,10 +7,10 @@ def Navbar():
         dbc.NavbarSimple(
             children=[
                 dbc.NavItem(dbc.NavLink("Overview", href="/overview")),
-                dbc.NavItem(dbc.NavLink("Settings", href="/settings")),
+                dbc.NavItem(dbc.NavLink("Analysis", href="/analysis")),
                 dbc.NavItem(dbc.NavLink("About", href="/about")),
             ],
-            brand="Sport Monitoring",
+            brand="Sauna Data Dashboard",
             brand_href="/overview",
             color="rgb(32, 32, 32)",
             dark=True

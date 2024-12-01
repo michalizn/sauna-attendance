@@ -87,12 +87,12 @@ def get_current_session():
     return "closed", None
 
 def create_new_csv():
-    today_date = datetime.now().strftime("%Y%m%d%H%M%S")
+    today_date = datetime.now().strftime("%Y%m%d")
     file_name = f"sauna_data_{today_date}.csv"
     with open(file_name, mode="a", newline="") as file:
         writer = csv.writer(file)
         # Write the header row
-        writer.writerow(["timestamp", "day", "session_type", "persons_count_sauna", "persons_count_pool",
+        writer.writerow(["timestamp", "day", "session_type", "persons_sauna", "persons_pool",
                          "temperature_home", "weather_description_home", 
                          "temperature_sauna", "weather_description_sauna", 
                          "national_holiday"])
@@ -137,32 +137,27 @@ while True:
         if driver_init:
             # Close the browser
             driver.quit()
-    else:
-        print("Sauna is closed.")
-        number_sauna = 0
-        number_pool = 0
-        session_type = "closed"
-    try:
-        weather_home = get_weather(49.03317655577836, 17.656029372771396) # Weather at home
-        weather_sauna = get_weather(49.02044866857781, 17.649074144949278) # Weather at sauna
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        holiday = is_national_holiday(datetime.now())
-        day = datetime.now().strftime("%A")
-        temperature_home = weather_home["temperature"] if weather_home else "N/A"
-        weather_desc_home = weather_home["description"] if weather_home else "N/A"
-        temperature_sauna = weather_sauna["temperature"] if weather_sauna else "N/A"
-        weather_desc_sauna = weather_sauna["description"] if weather_sauna else "N/A"
-        holiday_status = "Yes" if holiday else "No"
-    except:
-        print("Something went wrong.")
+        try:
+            weather_home = get_weather(49.03317655577836, 17.656029372771396) # Weather at home
+            weather_sauna = get_weather(49.02044866857781, 17.649074144949278) # Weather at sauna
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            holiday = is_national_holiday(datetime.now())
+            day = datetime.now().strftime("%A")
+            temperature_home = weather_home["temperature"] if weather_home else "N/A"
+            weather_desc_home = weather_home["description"] if weather_home else "N/A"
+            temperature_sauna = weather_sauna["temperature"] if weather_sauna else "N/A"
+            weather_desc_sauna = weather_sauna["description"] if weather_sauna else "N/A"
+            holiday_status = "Yes" if holiday else "No"
+        except:
+            print("Something went wrong.")
 
-    print(
-        f"{timestamp} - {day} - {session_type}: {number_sauna} persons, {number_pool} persons at pool, {temperature_home}°C, {weather_desc_home}, {temperature_sauna}°C, {weather_desc_sauna}, Holiday: {holiday_status}"
-    )
-    with open(file_name, mode="a", newline="") as file:
-        writer = csv.writer(file)
-        writer.writerow([timestamp, day, session_type, number_sauna, number_pool, temperature_home, weather_desc_home, temperature_sauna, weather_desc_sauna, holiday_status])
-        file.close()
+        print(
+            f"{timestamp} - {day} - {session_type}: {number_sauna} persons, {number_pool} persons at pool, {temperature_home}°C, {weather_desc_home}, {temperature_sauna}°C, {weather_desc_sauna}, Holiday: {holiday_status}"
+        )
+        with open(file_name, mode="a", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerow([timestamp, day, session_type, number_sauna, number_pool, temperature_home, weather_desc_home, temperature_sauna, weather_desc_sauna, holiday_status])
+            file.close()
     
     # Wait 210 seconds before the next check
     time.sleep(210)

@@ -13,556 +13,277 @@ from plotly.subplots import make_subplots
 from datetime import datetime
 import requests
 import xml.etree.ElementTree as ET
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+import time
+from datetime import datetime
+import csv
+import requests
+import threading
 
 dash.register_page(__name__, path='/')
 
-# Global variables to store data
-data_cache = {}
-prev_selected_file = None
+data_dir = os.path.dirname(os.path.abspath(__file__)).replace('pages', 'data')
+gpx_files = [f for f in os.listdir(data_dir) if f.endswith('.csv')]
 
-# Get list of GPX files
-gpx_folder = os.path.dirname(os.path.abspath(__file__)).replace('pages', 'data')
-gpx_files = [f for f in os.listdir(gpx_folder) if f.endswith('.gpx')]
+with open(data_dir.replace('data', 'weather_api.txt')) as api_txt:
+    text = api_txt.readlines()
+    WEATHER_API_KEY = text[0]
 
-# App layout
+# Variables for tracking current day and file
+current_date = datetime.now().date()
+file_name = None
+
+# Variables for the sauna timetable
+timetable = {
+    "monday": {"status": "closed", "sessions": []},
+    "tuesday": {"status": "open", "sessions": [("14:00", "21:30", "shared sauna")]},
+    "wednesday": {
+        "status": "open",
+        "sessions": [
+            ("14:00", "17:30", "shared sauna"),
+            ("17:30", "19:30", "women only"),
+            ("19:30", "21:30", "men only"),
+        ],
+    },
+    "thursday": {"status": "open", "sessions": [("14:00", "21:30", "shared sauna")]},
+    "friday": {"status": "open", "sessions": [("14:00", "21:30", "shared sauna")]},
+    "saturday": {"status": "open", "sessions": [("12:00", "21:30", "shared sauna")]},
+    "sunday": {"status": "open", "sessions": [("12:00", "21:30", "shared sauna")]},
+}
+
+# Czech holidays
+CZECH_HOLIDAYS = {
+    (1, 1): "New Year's Day",
+    (5, 1): "Labor Day",
+    (5, 8): "Liberation Day",
+    (7, 5): "Saints Cyril and Methodius Day",
+    (7, 6): "Jan Hus Day",
+    (9, 28): "Czech Statehood Day",
+    (10, 28): "Independent Czechoslovak State Day",
+    (11, 17): "Struggle for Freedom and Democracy Day",
+    (12, 24): "Christmas Eve",
+    (12, 25): "Christmas Day",
+    (12, 26): "Saint Stephen's Day",
+}
+
+# Weather fetching function
+def get_weather(lat, lon, api_key):
+    try:
+        url = f"http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}&units=metric"
+        response = requests.get(url)
+        data = response.json()
+        if response.status_code == 200:
+            return {"temperature": data["main"]["temp"], "description": data["weather"][0]["description"]}
+    except Exception as e:
+        print(f"Error fetching weather: {e}")
+    return {"temperature": "N/A", "description": "N/A"}
+
+# Determine current session type
+def get_current_session():
+    now = datetime.now()
+    day = now.strftime("%A").lower()
+    timetable_entry = timetable.get(day, {"status": "closed"})
+    if timetable_entry["status"] == "closed":
+        return "closed", None
+    current_time = now.strftime("%H:%M")
+    for start, end, session_type in timetable_entry["sessions"]:
+        if start <= current_time <= end:
+            return "open", session_type
+    return "closed", None
+
+# Function to create a new CSV file for each day
+def create_new_csv():
+    global file_name
+    today_date = datetime.now().strftime("%Y%m%d")
+    file_name = f"{data_dir}/sauna_data_{today_date}.csv"
+
+    if os.path.isfile(file_name):
+        print(f"Log file already exists!")
+        return file_name
+    
+    with open(file_name, mode="a", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(["timestamp", "day", "session_type", "persons_sauna", "persons_pool",
+                         "temperature_home", "weather_description_home", 
+                         "temperature_sauna", "weather_description_sauna", 
+                         "national_holiday"])
+    print(f"New log file created: {file_name}")
+    return file_name
+
+def is_national_holiday(date: datetime):
+    month_day = (date.month, date.day)
+    holiday_name = CZECH_HOLIDAYS.get(month_day)
+    return holiday_name if holiday_name else None
+
+# Function to load data from the current file
+def load_data():
+    if file_name and os.path.exists(file_name):
+        return pd.read_csv(file_name)
+    return pd.DataFrame(columns=["timestamp", "day", "session_type", "persons_sauna", 
+                                 "persons_pool", "temperature_home", "weather_description_home", 
+                                 "temperature_sauna", "weather_description_sauna", "national_holiday"])
+
+# Function to save new data into the current day's CSV file
+def save_data(data):
+    global current_date
+    new_date = datetime.now().date()
+    if new_date != current_date:  # Check if the day has changed
+        current_date = new_date
+        create_new_csv()
+    with open(file_name, mode="a", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow([data["timestamp"], data["day"], data["session_type"], data["persons_sauna"],
+                         data["persons_pool"], data["temperature_home"], data["weather_description_home"],
+                         data["temperature_sauna"], data["weather_description_sauna"], data["national_holiday"]])
+
+# Fetch data from website and API
+def fetch_data():
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+
+    session_status, session_type = get_current_session()
+    if session_status == "closed":
+        return None  # No need to fetch data if the sauna is closed
+
+    driver = webdriver.Chrome(options=chrome_options)
+    url = 'https://www.delfinub.cz/aktualni-obsazenost'
+    try:
+        driver.get(url)
+        # Scroll down a little
+        driver.execute_script("window.scrollBy(0, 350);")  # Adjust '200' to your needs
+        time.sleep(10)
+        persons_sauna = driver.find_element(By.XPATH, '//*[@id="snippet-container-default-widget-5011d2eee6b2fe3ef8b4e4abcd9a742f-widgetsnippet"]/div/div/div[3]/div/div/div/div')
+        persons_pool = driver.find_element(By.XPATH, '//*[@id="snippet-container-default-widget-5011d2eee6b2fe3ef8b4e4abcd9a742f-widgetsnippet"]/div/div/div[2]/div/div/div/div')
+        persons_sauna = persons_sauna.text.strip()
+        persons_pool = persons_pool.text.strip()
+    except Exception as e:
+        print(f"Error scraping data: {e}")
+        persons_sauna = "N/A"
+    finally:
+        driver.quit()
+
+    weather_home = get_weather(49.03317655577836, 17.656029372771396, WEATHER_API_KEY)
+    weather_sauna = get_weather(49.02044866857781, 17.649074144949278, WEATHER_API_KEY)
+
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    day = datetime.now().strftime("%A")
+    holiday = is_national_holiday(datetime.now())
+    national_holiday = "Yes" if holiday else "No"
+
+    return {
+        "timestamp": timestamp,
+        "day": day,
+        "session_type": session_type,
+        "persons_sauna": persons_sauna,
+        "persons_pool": persons_pool,
+        "temperature_home": weather_home["temperature"],
+        "weather_description_home": weather_home["description"],
+        "temperature_sauna": weather_sauna["temperature"],
+        "weather_description_sauna": weather_sauna["description"],
+        "national_holiday": national_holiday,
+    }
+
+# Ensure the first CSV file is created
+create_new_csv()
+
+def background_task():
+    while True:
+        print("Background task running...")
+        new_data = fetch_data()
+        if new_data:
+            print(new_data)
+            save_data(new_data)
+        time.sleep(220)
+
+# Start the background thread
+thread = threading.Thread(target=background_task, daemon=True)
+thread.start()
+
+# Layout
 layout = html.Div([
     dbc.Container([
         dbc.Row([
             dbc.Col([
-                html.Div([], style={'textAlign': 'center'}),
+                html.Div(id="current-info", style={'textAlign': 'center', 'fontSize': 200}),
+                html.Label('persons in sauna', className="desktop-visible", style={'textAlign': 'center', 'fontSize': 30, 'marginBottom': '20px'}),
+                html.Label('persons in sauna', className="mobile-visible", style={'textAlign': 'center', 'fontSize': '5vw', 'marginBottom': '20px'}),
             ]),
         ]),
-        dbc.Row([
-            dbc.Col([
-                dbc.Card([
-                    dbc.CardBody([
-                        dcc.Store(id='screen-size', storage_type='session'),
-                        html.Label('Select route and activity', className="desktop-visible", style={'fontSize': 30, 'textAlign': 'left'}),
-                        html.Label('Select route and activity', className="mobile-visible", style={'fontSize': '5vw', 'textAlign': 'left'}),
-                        html.Div([
-                            html.Div([
-                                dcc.Dropdown(
-                                    id='gpx-dropdown',
-                                    options=[
-                                        {'label': f'{file_name}', 'value': file_path}
-                                        for file_name, file_path in zip(
-                                            [os.path.basename(file_path) for file_path in glob.glob(os.path.join(gpx_folder, '*.gpx'))],
-                                            glob.glob(os.path.join(gpx_folder, '*.gpx'))
-                                        )
-                                    ],
-                                    placeholder="Select a GPX file",
-                                    clearable=True,
-                                    searchable=True,
-                                    persistence=True,
-                                ),
-                            ], className="desktop-visible", style={'width': '50%', 'margin-right': '10px'}),
-                            html.Div([
-                                dcc.Dropdown(
-                                    id='activity-dropdown',
-                                    options=['Running', 'Cycling', 'Walking'],
-                                    placeholder="Select an activity",
-                                    persistence=True,
-                                ),
-                            ], className="desktop-visible", style={'width': '50%', 'margin-right': '10px'}),
-                            html.Div([
-                                dcc.Dropdown(
-                                    id='gpx-dropdown-mobile',
-                                    options=[
-                                        {'label': f'{file_name}', 'value': file_path}
-                                        for file_name, file_path in zip(
-                                            [os.path.basename(file_path) for file_path in glob.glob(os.path.join(gpx_folder, '*.gpx'))],
-                                            glob.glob(os.path.join(gpx_folder, '*.gpx'))
-                                        )
-                                    ],
-                                    placeholder="Select a GPX file",
-                                    clearable=True,
-                                    searchable=True,
-                                    persistence=True,
-                                ),
-                                dcc.Dropdown(
-                                    id='activity-dropdown-mobile',
-                                    options=['Running', 'Cycling', 'Walking'],
-                                    placeholder="Select an activity",
-                                    persistence=True,
-                                    style={'marginTop': '10px'},
-                                ),
-                            ], className="mobile-visible", style={'width': '100%', 'margin-bottom': '10px'}),
-                        ], style={'display': 'flex', 'flexDirection': 'row', 'gap': '10px', 'flex': '1'}),
-                    ]),
-                ], style={'background': 'linear-gradient(to top, rgb(255, 255, 255) 0%, rgb(64, 64, 64) 100%)', 'border': '0px'}),
-            ]),
-        ]),
-        dbc.Row([
-            dbc.Col([
-                dbc.Card([
-                    dbc.CardHeader("Trace details:", className="desktop-visible", style={'fontSize': 30, 'textAlign': 'left'}),
-                    dbc.CardHeader("Trace details:", className="mobile-visible", style={'fontSize': '4vw', 'textAlign': 'left'}),
-                    dbc.CardBody([
-                        html.Div([
-                            html.Div([
-                                dcc.Graph(id='combined-graph', className="desktop-visible", style={'flex': '1', 'height': '200px'}),
-                            ], style={'display': 'flex', 'flexDirection': 'column', 'gap': '10px', 'flex': '1'}),
-                        ], style={'display': 'flex', 'flexDirection': 'row', 'gap': '10px', 'flex': '1'}),
-                        html.Div([
-                            html.Div([
-                                dcc.Graph(id='combined-graph-mobile', className="mobile-visible", style={'flex': '1', 'height': '80vw'}),
-                                ], className="mobile-visible", style={'display': 'flex', 'flexDirection': 'column', 'gap': '10px', 'flex': '1'}),
-                        ], style={'display': 'flex', 'flexDirection': 'row', 'gap': '10px', 'flex': '1'}),
-                    ]),
-                ]),
-            ]),
-        ]),
-        dbc.Row([
-            dbc.Col([
-                dbc.Card([
-                    dbc.CardHeader("Trace Information", className="desktop-visible", style={'fontSize': 30, 'textAlign': 'left', 'color': 'black'}),
-                    dbc.CardHeader("Trace Information", className="mobile-visible", style={'fontSize': '4vw', 'textAlign': 'left', 'color': 'black'}),
-                    dbc.CardBody([
-                        html.Div(id='metrics-output', className="desktop-visible", style={'padding': '10px'}),
-                        html.Div(id='metrics-output-mobile', className="mobile-visible", style={'padding': '10px'})
-                    ]),
-                ], style={'background': 'linear-gradient(to top, rgb(64, 64, 64) 0%, rgb(255, 255, 255) 100%)', 'border': '0px'}),
-            ]),
-        ]),
-    ])
-], style={'background': 'linear-gradient(to top, rgb(255, 255, 255) 0%, rgb(64, 64, 64) 100%)'})
+    html.Div(id="temperature-info", style={'textAlign': 'center', 'fontSize': '24px', 'marginBottom': '10px'}),
+    html.Div(id="date-info", style={'textAlign': 'center', 'fontSize': '20px', 'marginBottom': '20px'}),
+    dcc.Graph(id="sauna-plot"),
+    dcc.Interval(id="interval", interval=60 * 4 * 1000, n_intervals=0),
+    ]),
+])
 
+# Callback to update the dashboard
 @app.callback(
-    [Output('metrics-output', 'children'),
-     Output('gpx-map', 'figure'),
-     Output('combined-graph', 'figure')],
-    [Input('gpx-dropdown', 'value'),
-     Input('combined-graph', 'hoverData'),
-     Input('activity-dropdown', 'value')],
-    [State('store_weight', 'data'),
-     State('store_height', 'data'),
-     State('store_age', 'data'),
-     State('store_sex', 'data'),]
+    [Output("current-info", "children"),
+     Output("temperature-info", "children"),
+     Output("date-info", "children"),
+     Output("sauna-plot", "figure")],
+    [Input("interval", "n_intervals")]
 )
-def update_output(file_path, hoverData_plot, activity, weight, height, age, sex):
-    global data_cache
+def update_dashboard(n):
+    # Load all data
+    df = load_data()
 
-    if not file_path:
-        return [html.Div(), {}, {}]
-
-
-    data = data_cache[file_path]
-    
-    # Format metrics
-    metrics = data['metrics']
-    times = data['times']
-    formatted_times = [time.strftime('%Y-%m-%d %H:%M:%S %Z').replace(' Z', '') for time in times]  # Convert datetime to string
-    # Combine speed and time for hover info
-    hover_texts = [
-        f"Speed: {speed:.2f} km/h<br>Time: {time}"
-        for speed, time in zip(data['smoothed_speeds'], formatted_times)
-    ]
-    total_time_seconds = metrics['total_time_seconds']
-    hours, minutes, seconds = int(total_time_seconds // 3600), int((total_time_seconds % 3600) // 60), int(total_time_seconds % 60)
-    total_time_formatted = f"{hours:02}:{minutes:02}:{seconds:02}"
-    
-    map_fig = go.Figure(go.Scattermapbox(
-        lat=data['latitudes'][1:],
-        lon=data['longitudes'][1:],
-        mode='markers+lines',
-        marker=dict(size=7, color=data['speeds_normalized'], colorscale='turbo'),
-        line=dict(width=2, color='blue'),
-        text=hover_texts,
-        hoverinfo='text'
-    ))
-    
-    map_fig.update_layout(
-        mapbox_style="open-street-map",
-        mapbox=dict(
-            center=go.layout.mapbox.Center(
-                lat=data['latitudes'][len(data['latitudes']) // 2],
-                lon=data['longitudes'][len(data['longitudes']) // 2]
-            ),
-            zoom=10
-        ),
-        margin={"r":0, "t":0, "l":0, "b":0}
-    )
+    # Determine latest information
+    if not df.empty:
+        latest = df.iloc[-1]
+        persons_sauna = latest["persons_sauna"]
+        temperature_home = latest["temperature_home"]
+        temperature_sauna = latest["temperature_sauna"]
+        formatted_date = datetime.now().strftime("%d of %B %Y")  # Format like "19th of November 2024"
+        current_info = f"{persons_sauna}"
+        temperature_info = f"Home: {temperature_home}°C | Sauna: {temperature_sauna}°C"
+        date_info = formatted_date
+    else:
+        current_info = "0"
+        temperature_info = "Home: N/A | Sauna: N/A"
+        date_info = datetime.now().strftime("%dth of %B %Y")
 
     # Create the combined figure with elevation and speed profiles
-    elev_fig = go.Scatter(
-        x=data['distances_kilometers'],
-        y=data['elevations'],
+    persons_sauna_fig = go.Scatter(
+        x=df["timestamp"],
+        y=df["persons_sauna"],
         mode='lines+markers',
-        line=dict(color='green'),
-        marker=dict(size=5, color='green'),
-        text=[f'Elevation: {ele:.2f} m' for ele in data['elevations']],
+        line=dict(color='blue'),
+        marker=dict(size=5, color='blue'),
+        text=[f'Number of Persons: {persons}' for persons in df["persons_sauna"]],
         hoverinfo='text'
     )
 
-    speed_fig = go.Scatter(
-        x=data['distances_kilometers'],
-        y=data['smoothed_speeds'],
+    temperature_home_fig = go.Scatter(
+        x=df["timestamp"],
+        y=df["temperature_home"],
         mode='lines+markers',
-        line=dict(color='red'),
-        marker=dict(size=5, color='red'),
-        text=[f'Speed: {speed:.2f} km/h' for speed in data['smoothed_speeds']],
+        line=dict(color='orange'),
+        marker=dict(size=5, color='orange'),
+        text=[f'Temperature at Home: {temperature} °C' for temperature in df["temperature_home"]],
         hoverinfo='text'
     )
-
+    # if not df.empty:
+    #     timetable_entry = timetable.get(datetime.now().strftime("%A").lower(), {"status": "closed"})
+    #     start_of_sauna = datetime.combine(datetime.now().date(), datetime.strptime(timetable_entry[0][0], '%H:%M').time())
+    #     end_of_sauna = datetime.combine(datetime.now().date(), datetime.strptime(timetable_entry[0][1], '%H:%M').time())
+    #     print(start_of_sauna, end_of_sauna)
     combined_fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.1)
-    combined_fig.add_trace(elev_fig, row=1, col=1)
-    combined_fig.add_trace(speed_fig, row=2, col=1)
+    combined_fig.add_trace(persons_sauna_fig, row=1, col=1)
+    combined_fig.add_trace(temperature_home_fig, row=2, col=1)
     combined_fig.update_layout(
-        xaxis=dict(range=[min(data['distances_kilometers']), max(data['distances_kilometers'])]),
-        xaxis_title='Distance (km)',
-        yaxis1_title='Elevation (m)',
-        yaxis2_title='Speed (km/h)',
+        # xaxis_title='Time',
+        yaxis1_title='Persons in Sauna',
+        yaxis2_title='Temperature (°C)',
         showlegend=False,
         margin={"r":0, "t":0, "l":0, "b":0}
     )
 
-    ## TODO add to the calculation sex information and typical times for running, walking and biking based on Strava measurements
-    if not activity or not weight or not height or not age or not sex:
-        calories_burned = "Please select an activity and enter your personal information in setttings menu."
-    else:
-        total_time = float(total_time_seconds)
-        average_speed = float(metrics["average_speed"])
+    return current_info, temperature_info, date_info, combined_fig
 
-        # MET values for different activities
-        met_values = {
-            'Running': 9.8,
-            'Cycling': 7.5,
-            'Walking': 3.8
-        }
 
-        met_value = met_values.get(activity, 1)
-        
-        # Adjust MET value based on elevation gain and average speed
-        elevation_gain_value = metrics["top_elevation"] - metrics["lowest_elevation"]
-        
-        if elevation_gain_value > 500:
-            met_value += 1  # Increase MET value for high elevation gain
-
-        if average_speed > 20:
-            met_value += 1  # Increase MET value for high speed
-
-        calories_burned = met_value * weight * (total_time/3600)
-
-        calories_burned = f'{calories_burned:.2f} kcal'
-
-    metrics_output = html.Div([
-        html.Div([
-            dbc.Card([
-                dbc.CardHeader("Total Distance:"),
-                dbc.CardBody(html.P(f'{metrics["total_distance"]:.2f} km', style={'text-align': 'right', 'fontSize':20}))
-            ], className="desktop-visible", style={'width': '25%', 'margin-right': '10px', 'color': 'white', 'border-color': 'white', 'background': 'radial-gradient(circle at 10% 20%, rgb(0, 0, 0) 0%, rgb(64, 64, 64) 90.2%)'}),
-            dbc.Card([
-                dbc.CardHeader("Highest Speed:"),
-                dbc.CardBody(html.P(f'{metrics["highest_speed"]:.2f} km/h', style={'text-align': 'right', 'fontSize':20}))
-            ], className="desktop-visible", style={'width': '25%', 'margin-right': '10px', 'color': 'white', 'border-color': 'white', 'background': 'radial-gradient(circle at 10% 20%, rgb(0, 0, 0) 0%, rgb(64, 64, 64) 90.2%)'}),
-            dbc.Card([
-                dbc.CardHeader("Lowest Speed:"),
-                dbc.CardBody(html.P(f'{metrics["lowest_speed"]:.2f} km/h', style={'text-align': 'right', 'fontSize':20}))
-            ], className="desktop-visible", style={'width': '25%', 'margin-right': '10px', 'color': 'white', 'border-color': 'white', 'background': 'radial-gradient(circle at 10% 20%, rgb(0, 0, 0) 0%, rgb(64, 64, 64) 90.2%)'}),
-            dbc.Card([
-                dbc.CardHeader("Average Speed:"),
-                dbc.CardBody(html.P(f'{metrics["average_speed"]:.2f} km/h', style={'text-align': 'right', 'fontSize':20}))
-            ], className="desktop-visible", style={'width': '25%', 'margin-right': '10px', 'color': 'white', 'border-color': 'white', 'background': 'radial-gradient(circle at 10% 20%, rgb(0, 0, 0) 0%, rgb(64, 64, 64) 90.2%)'}),
-        ], style={'display': 'flex', 'flexDirection': 'row', 'gap': '10px', 'flex': '1'}),
-        html.Div([
-            dbc.Card([
-                dbc.CardHeader("Total Time:"),
-                dbc.CardBody(html.P(f'{total_time_formatted}', style={'text-align': 'right', 'fontSize':20}))
-            ], className="desktop-visible", style={'width': '25%', 'margin-right': '10px', 'color': 'white', 'border-color': 'white', 'background': 'radial-gradient(circle at 10% 20%, rgb(0, 0, 0) 0%, rgb(64, 64, 64) 90.2%)'}),
-            dbc.Card([
-                dbc.CardHeader("Top Elevation:"),
-                dbc.CardBody(html.P(f'{metrics["top_elevation"]:.2f} m', style={'text-align': 'right', 'fontSize':20}))
-            ], className="desktop-visible", style={'width': '25%', 'margin-right': '10px', 'color': 'white', 'border-color': 'white', 'background': 'radial-gradient(circle at 10% 20%, rgb(0, 0, 0) 0%, rgb(64, 64, 64) 90.2%)'}),
-            dbc.Card([
-                dbc.CardHeader("Lowest Elevation:"),
-                dbc.CardBody(html.P(f'{metrics["lowest_elevation"]:.2f} m', style={'text-align': 'right', 'fontSize':20}))
-            ], className="desktop-visible", style={'width': '25%', 'margin-right': '10px', 'color': 'white', 'border-color': 'white', 'background': 'radial-gradient(circle at 10% 20%, rgb(0, 0, 0) 0%, rgb(64, 64, 64) 90.2%)'}),
-            dbc.Card([
-                dbc.CardHeader("Calories Burned: "),
-                dbc.CardBody(html.P(calories_burned, style={'text-align': 'right', 'fontSize':20}))
-            ], className="desktop-visible", style={'width': '25%', 'margin-right': '10px', 'color': 'white', 'border-color': 'white', 'background': 'radial-gradient(circle at 10% 20%, rgb(0, 0, 0) 0%, rgb(64, 64, 64) 90.2%)'}),
-        ], style={'display': 'flex', 'flexDirection': 'row', 'gap': '10px', 'flex': '1'}),
-    ], style={'display': 'flex', 'flexDirection': 'column', 'gap': '10px', 'flex': '1'})
-
-    if hoverData_plot:
-        point_index = hoverData_plot['points'][0]['pointIndex']
-        lat = data['latitudes'][point_index + 1]
-        lon = data['longitudes'][point_index + 1]
-
-        # Update map figures
-        map_fig.update_traces(
-            marker=dict(size=[12 if i == point_index else 7 for i in range(len(data['latitudes']) - 1)])
-        )
-        map_fig.update_layout(
-            mapbox=dict(
-                center=go.layout.mapbox.Center(lat=lat, lon=lon),
-                zoom=14
-            )
-        )
-
-        # Update combined figures
-        combined_fig.update_traces(
-            marker=dict(size=[10 if i == point_index else 5 for i in range(len(data['smoothed_speeds']))])
-        )
-
-    return metrics_output, map_fig, combined_fig
-
-@app.callback(
-    [Output('metrics-output-mobile', 'children'),
-     Output('gpx-map-mobile', 'figure'),
-     Output('combined-graph-mobile', 'figure')],
-    [Input('gpx-dropdown-mobile', 'value'),
-     Input('combined-graph-mobile', 'hoverData'),
-     Input('activity-dropdown-mobile', 'value')],
-    [State('store_weight', 'data'),
-     State('store_height', 'data'),
-     State('store_age', 'data'),
-     State('store_sex', 'data'),]
-)
-def update_output(file_path, hoverData_plot, activity, weight, height, age, sex):
-    global data_cache
-
-    if not file_path:
-        return [html.Div(), {}, {}]
-
-    data = data_cache[file_path]
-    
-    # Format metrics
-    metrics = data['metrics']
-    times = data['times']
-    formatted_times = [time.strftime('%Y-%m-%d %H:%M:%S %Z').replace(' Z', '') for time in times]  # Convert datetime to string
-    # Combine speed and time for hover info
-    hover_texts = [
-        f"Speed: {speed:.2f} km/h<br>Time: {time}"
-        for speed, time in zip(data['smoothed_speeds'], formatted_times)
-    ]
-    total_time_seconds = metrics['total_time_seconds']
-    hours, minutes, seconds = int(total_time_seconds // 3600), int((total_time_seconds % 3600) // 60), int(total_time_seconds % 60)
-    total_time_formatted = f"{hours:02}:{minutes:02}:{seconds:02}"
-    
-    map_fig = go.Figure(go.Scattermapbox(
-        lat=data['latitudes'][1:],
-        lon=data['longitudes'][1:],
-        mode='markers+lines',
-        marker=dict(size=7, color=data['speeds_normalized'], colorscale='turbo'),
-        line=dict(width=2, color='blue'),
-        text=hover_texts,
-        hoverinfo='text'
-    ))
-    
-    map_fig.update_layout(
-        mapbox_style="open-street-map",
-        mapbox=dict(
-            center=go.layout.mapbox.Center(
-                lat=data['latitudes'][len(data['latitudes']) // 2],
-                lon=data['longitudes'][len(data['longitudes']) // 2]
-            ),
-            zoom=10
-        ),
-        margin={"r":0, "t":0, "l":0, "b":0}
-    )
-
-    # Create the combined figure with elevation and speed profiles
-    elev_fig = go.Scatter(
-        x=data['distances_kilometers'],
-        y=data['elevations'],
-        mode='lines+markers',
-        line=dict(color='green'),
-        marker=dict(size=5, color='green'),
-        text=[f'Elevation: {ele:.2f} m' for ele in data['elevations']],
-        hoverinfo='text'
-    )
-
-    speed_fig = go.Scatter(
-        x=data['distances_kilometers'],
-        y=data['smoothed_speeds'],
-        mode='lines+markers',
-        line=dict(color='red'),
-        marker=dict(size=5, color='red'),
-        text=[f'Speed: {speed:.2f} km/h' for speed in data['smoothed_speeds']],
-        hoverinfo='text'
-    )
-
-    combined_fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.1)
-    combined_fig.add_trace(elev_fig, row=1, col=1)
-    combined_fig.add_trace(speed_fig, row=2, col=1)
-    combined_fig.update_layout(
-        xaxis=dict(range=[min(data['distances_kilometers']), max(data['distances_kilometers'])]),
-        xaxis_title='Distance (km)',
-        yaxis1_title='Elevation (m)',
-        yaxis2_title='Speed (km/h)',
-        showlegend=False,
-        margin={"r":0, "t":0, "l":0, "b":0}
-    )
-
-    ## TODO add to the calculation sex information and typical times for running, walking and biking based on Strava measurements
-    if not activity or not weight or not height or not age or not sex:
-        calories_burned = "Please select an activity and enter your personal information in setttings menu."
-    else:
-        total_time = float(total_time_seconds)
-        average_speed = float(metrics["average_speed"])
-
-        # MET values for different activities
-        met_values = {
-            'Running': 9.8,
-            'Cycling': 7.5,
-            'Walking': 3.8
-        }
-
-        met_value = met_values.get(activity, 1)
-        
-        # Adjust MET value based on elevation gain and average speed
-        elevation_gain_value = metrics["top_elevation"] - metrics["lowest_elevation"]
-        
-        if elevation_gain_value > 500:
-            met_value += 1  # Increase MET value for high elevation gain
-
-        if average_speed > 20:
-            met_value += 1  # Increase MET value for high speed
-
-        calories_burned = met_value * weight * (total_time/3600)
-
-        calories_burned = f'{calories_burned:.2f} kcal'
-
-    metrics_output = html.Div([
-        html.Div([
-            dbc.Card([
-                dbc.CardHeader("Total Distance:"),
-                dbc.CardBody(html.P(f'{metrics["total_distance"]:.2f} km', style={'text-align': 'right', 'fontSize': 20}))
-            ], className="mobile-visible", style={'width': '100%', 'margin-bottom': '10px', 'color': 'white', 'border-color': 'white', 
-                    'background': 'radial-gradient(circle at 10% 20%, rgb(0, 0, 0) 0%, rgb(64, 64, 64) 90.2%)'}),
-            dbc.Card([
-                dbc.CardHeader("Highest Speed:"),
-                dbc.CardBody(html.P(f'{metrics["highest_speed"]:.2f} km/h', style={'text-align': 'right', 'fontSize': 20}))
-            ], className="mobile-visible", style={'width': '100%', 'margin-bottom': '10px', 'color': 'white', 'border-color': 'white', 
-                    'background': 'radial-gradient(circle at 10% 20%, rgb(0, 0, 0) 0%, rgb(64, 64, 64) 90.2%)'}),
-            dbc.Card([
-                dbc.CardHeader("Lowest Speed:"),
-                dbc.CardBody(html.P(f'{metrics["lowest_speed"]:.2f} km/h', style={'text-align': 'right', 'fontSize': 20}))
-            ], className="mobile-visible", style={'width': '100%', 'margin-bottom': '10px', 'color': 'white', 'border-color': 'white', 
-                    'background': 'radial-gradient(circle at 10% 20%, rgb(0, 0, 0) 0%, rgb(64, 64, 64) 90.2%)'}),
-            dbc.Card([
-                dbc.CardHeader("Average Speed:"),
-                dbc.CardBody(html.P(f'{metrics["average_speed"]:.2f} km/h', style={'text-align': 'right', 'fontSize': 20}))
-            ], className="mobile-visible", style={'width': '100%', 'margin-bottom': '10px', 'color': 'white', 'border-color': 'white', 
-                    'background': 'radial-gradient(circle at 10% 20%, rgb(0, 0, 0) 0%, rgb(64, 64, 64) 90.2%)'}),
-            dbc.Card([
-                dbc.CardHeader("Total Time:"),
-                dbc.CardBody(html.P(f'{total_time_formatted}', style={'text-align': 'right', 'fontSize': 20}))
-            ], className="mobile-visible", style={'width': '100%', 'margin-bottom': '10px', 'color': 'white', 'border-color': 'white', 
-                    'background': 'radial-gradient(circle at 10% 20%, rgb(0, 0, 0) 0%, rgb(64, 64, 64) 90.2%)'}),
-            dbc.Card([
-                dbc.CardHeader("Top Elevation:"),
-                dbc.CardBody(html.P(f'{metrics["top_elevation"]:.2f} m', style={'text-align': 'right', 'fontSize': 20}))
-            ], className="mobile-visible", style={'width': '100%', 'margin-bottom': '10px', 'color': 'white', 'border-color': 'white', 
-                    'background': 'radial-gradient(circle at 10% 20%, rgb(0, 0, 0) 0%, rgb(64, 64, 64) 90.2%)'}),
-            dbc.Card([
-                dbc.CardHeader("Lowest Elevation:"),
-                dbc.CardBody(html.P(f'{metrics["lowest_elevation"]:.2f} m', style={'text-align': 'right', 'fontSize': 20}))
-            ], className="mobile-visible", style={'width': '100%', 'margin-bottom': '10px', 'color': 'white', 'border-color': 'white', 
-                    'background': 'radial-gradient(circle at 10% 20%, rgb(0, 0, 0) 0%, rgb(64, 64, 64) 90.2%)'}),
-            dbc.Card([
-                dbc.CardHeader("Calories Burned:"),
-                dbc.CardBody(html.P(calories_burned, style={'text-align': 'right', 'fontSize': 20}))
-            ], className="mobile-visible", style={'width': '100%', 'margin-bottom': '10px', 'color': 'white', 'border-color': 'white', 
-                    'background': 'radial-gradient(circle at 10% 20%, rgb(0, 0, 0) 0%, rgb(64, 64, 64) 90.2%)'}),
-        ], className="mobile-visible", style={'display': 'flex', 'flexDirection': 'column', 'gap': '10px'}),
-    ], style={'display': 'flex', 'flexDirection': 'column', 'gap': '10px', 'flex': '1'})
-
-    if hoverData_plot:
-        point_index = hoverData_plot['points'][0]['pointIndex']
-        lat = data['latitudes'][point_index + 1]
-        lon = data['longitudes'][point_index + 1]
-
-        # Update map figures
-        map_fig.update_traces(
-            marker=dict(size=[12 if i == point_index else 7 for i in range(len(data['latitudes']) - 1)])
-        )
-        map_fig.update_layout(
-            mapbox=dict(
-                center=go.layout.mapbox.Center(lat=lat, lon=lon),
-                zoom=14
-            )
-        )
-
-        # Update combined figures
-        combined_fig.update_traces(
-            marker=dict(size=[10 if i == point_index else 5 for i in range(len(data['smoothed_speeds']))])
-        )
-
-    return metrics_output, map_fig, combined_fig
-
-# Define a callback to update the activity dropdown based on the average speed
-@app.callback(
-    Output('activity-dropdown', 'value'),
-    Input('gpx-dropdown', 'value')
-)
-def update_activity_dropdown(file_path):
-    if file_path:
-
-        data = data_cache[file_path]
-        metrics = data['metrics']
-        average_speed = float(metrics["average_speed"])  # in km/h
-        
-        # Determine activity based on average speed
-        if average_speed > 17:
-            return 'Cycling'
-        elif 7 <= average_speed <= 17:
-            return 'Running'
-        else:
-            return 'Walking'
-    
-    return None  # Default value if no file is selected
-
-# Define a callback to update the activity dropdown based on the average speed
-@app.callback(
-    Output('activity-dropdown-mobile', 'value'),
-    Input('gpx-dropdown-mobile', 'value')
-)
-def update_activity_dropdown(file_path):
-    if file_path:
-
-        data = data_cache[file_path]
-        metrics = data['metrics']
-        average_speed = float(metrics["average_speed"])  # in km/h
-        
-        # Determine activity based on average speed
-        if average_speed > 17:
-            return 'Cycling'
-        elif 7 <= average_speed <= 17:
-            return 'Running'
-        else:
-            return 'Walking'
-    
-    return None  # Default value if no file is selected
-
-@app.callback(
-    Output('gpx-dropdown', 'options'),
-    [Input('gpx-dropdown', 'value')]
-)
-def update_options(selected_value):
-    updated_options = [
-        {'label': f'{file_name}', 'value': file_path}
-        for file_name, file_path in zip(
-            [os.path.basename(file_path) for file_path in glob.glob(os.path.join(gpx_folder, '*.gpx'))],
-            glob.glob(os.path.join(gpx_folder, '*.gpx'))
-        )
-    ]
-    return updated_options
-
-@app.callback(
-    Output('gpx-dropdown-mobile', 'options'),
-    [Input('gpx-dropdown-mobile', 'value')]
-)
-def update_options(selected_value):
-    updated_options = [
-        {'label': f'{file_name}', 'value': file_path}
-        for file_name, file_path in zip(
-            [os.path.basename(file_path) for file_path in glob.glob(os.path.join(gpx_folder, '*.gpx'))],
-            glob.glob(os.path.join(gpx_folder, '*.gpx'))
-        )
-    ]
-    return updated_options
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run_server(debug=True)

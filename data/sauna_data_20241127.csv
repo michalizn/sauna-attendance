@@ -1,0 +1,123 @@
+timestamp,day,session_type,persons_sauna,persons_pool,temperature_home,weather_description_home,temperature_sauna,weather_description_sauna,national_holiday
+2024-11-27 14:00:23,Wednesday,shared sauna,1,8,7.28,overcast clouds,5.94,overcast clouds,No
+2024-11-27 14:04:08,Wednesday,shared sauna,1,8,7.28,overcast clouds,5.94,overcast clouds,No
+2024-11-27 14:07:51,Wednesday,shared sauna,5,11,7.28,overcast clouds,5.94,overcast clouds,No
+2024-11-27 14:11:33,Wednesday,shared sauna,5,11,7.28,overcast clouds,5.91,overcast clouds,No
+2024-11-27 14:15:15,Wednesday,shared sauna,6,16,5.45,overcast clouds,5.7,overcast clouds,No
+2024-11-27 14:18:57,Wednesday,shared sauna,6,16,5.63,overcast clouds,5.7,overcast clouds,No
+2024-11-27 14:22:40,Wednesday,shared sauna,6,24,5.63,overcast clouds,5.7,overcast clouds,No
+2024-11-27 14:26:22,Wednesday,shared sauna,6,24,5.45,overcast clouds,5.7,overcast clouds,No
+2024-11-27 14:30:05,Wednesday,shared sauna,6,30,5.45,overcast clouds,5.7,overcast clouds,No
+2024-11-27 14:33:47,Wednesday,shared sauna,6,31,5.45,overcast clouds,5.7,overcast clouds,No
+2024-11-27 14:37:30,Wednesday,shared sauna,6,31,5.45,overcast clouds,5.7,overcast clouds,No
+2024-11-27 14:41:12,Wednesday,shared sauna,8,33,5.45,overcast clouds,5.7,overcast clouds,No
+2024-11-27 14:44:54,Wednesday,shared sauna,8,33,5.45,overcast clouds,5.68,overcast clouds,No
+2024-11-27 14:48:37,Wednesday,shared sauna,10,31,5.42,overcast clouds,5.68,overcast clouds,No
+2024-11-27 14:52:19,Wednesday,shared sauna,10,31,5.42,overcast clouds,5.68,overcast clouds,No
+2024-11-27 14:56:03,Wednesday,shared sauna,12,31,5.42,overcast clouds,5.68,overcast clouds,No
+2024-11-27 14:59:45,Wednesday,shared sauna,11,30,5.42,overcast clouds,5.68,overcast clouds,No
+2024-11-27 15:03:28,Wednesday,shared sauna,11,30,5.42,overcast clouds,5.68,overcast clouds,No
+2024-11-27 15:07:10,Wednesday,shared sauna,12,31,4.86,overcast clouds,5.68,overcast clouds,No
+2024-11-27 15:10:53,Wednesday,shared sauna,11,34,4.86,overcast clouds,5.12,overcast clouds,No
+2024-11-27 15:14:35,Wednesday,shared sauna,11,34,4.86,overcast clouds,5.03,mist,No
+2024-11-27 15:18:17,Wednesday,shared sauna,12,24,4.76,mist,5.12,overcast clouds,No
+2024-11-27 15:22:00,Wednesday,shared sauna,12,24,4.76,mist,5.03,mist,No
+2024-11-27 15:25:42,Wednesday,shared sauna,15,23,4.76,mist,5.03,mist,No
+2024-11-27 15:29:24,Wednesday,shared sauna,15,23,4.76,mist,5.03,mist,No
+2024-11-27 15:33:07,Wednesday,shared sauna,13,23,4.8,mist,5.03,mist,No
+2024-11-27 15:36:49,Wednesday,shared sauna,13,23,4.8,mist,4.84,mist,No
+2024-11-27 15:40:32,Wednesday,shared sauna,13,23,4.72,mist,4.84,mist,No
+2024-11-27 15:44:14,Wednesday,shared sauna,13,27,4.72,mist,4.84,mist,No
+2024-11-27 15:47:57,Wednesday,shared sauna,13,27,4.72,mist,4.84,mist,No
+2024-11-27 15:51:39,Wednesday,shared sauna,15,28,4.64,mist,4.89,mist,No
+2024-11-27 15:55:22,Wednesday,shared sauna,16,36,4.64,mist,4.89,mist,No
+2024-11-27 15:59:04,Wednesday,shared sauna,16,36,4.64,mist,4.89,mist,No
+2024-11-27 16:02:47,Wednesday,shared sauna,16,36,4.64,mist,5.14,overcast clouds,No
+2024-11-27 16:06:29,Wednesday,shared sauna,16,36,4.67,overcast clouds,5.14,overcast clouds,No
+2024-11-27 16:10:12,Wednesday,shared sauna,17,41,4.65,overcast clouds,4.9,overcast clouds,No
+2024-11-27 16:13:54,Wednesday,shared sauna,17,41,4.65,overcast clouds,4.9,overcast clouds,No
+2024-11-27 16:17:37,Wednesday,shared sauna,14,37,4.65,overcast clouds,4.9,overcast clouds,No
+2024-11-27 16:21:19,Wednesday,shared sauna,14,37,4.59,fog,4.85,fog,No
+2024-11-27 16:25:01,Wednesday,shared sauna,12,40,4.59,fog,4.85,fog,No
+2024-11-27 16:28:44,Wednesday,shared sauna,13,38,4.46,fog,4.72,fog,No
+2024-11-27 16:32:26,Wednesday,shared sauna,13,38,4.46,fog,4.72,fog,No
+2024-11-27 16:36:09,Wednesday,shared sauna,13,32,4.46,fog,4.72,fog,No
+2024-11-27 16:39:51,Wednesday,shared sauna,14,31,4.46,fog,4.72,fog,No
+2024-11-27 16:43:33,Wednesday,shared sauna,14,31,4.46,fog,4.72,fog,No
+2024-11-27 16:47:16,Wednesday,shared sauna,16,30,4.44,fog,4.71,fog,No
+2024-11-27 16:50:58,Wednesday,shared sauna,16,30,4.44,fog,4.71,fog,No
+2024-11-27 16:54:41,Wednesday,shared sauna,15,31,4.44,fog,4.71,fog,No
+2024-11-27 16:58:23,Wednesday,shared sauna,15,40,4.44,fog,4.71,fog,No
+2024-11-27 17:02:05,Wednesday,shared sauna,15,40,4.44,fog,4.71,fog,No
+2024-11-27 17:05:48,Wednesday,shared sauna,13,44,4.29,overcast clouds,4.57,overcast clouds,No
+2024-11-27 17:09:31,Wednesday,shared sauna,0,0,4.29,overcast clouds,4.57,overcast clouds,No
+2024-11-27 17:13:13,Wednesday,shared sauna,13,45,4.29,overcast clouds,4.57,overcast clouds,No
+2024-11-27 17:16:56,Wednesday,shared sauna,13,45,4.29,overcast clouds,4.57,overcast clouds,No
+2024-11-27 17:20:41,Wednesday,shared sauna,0,0,4.29,overcast clouds,4.57,overcast clouds,No
+2024-11-27 17:24:23,Wednesday,shared sauna,12,39,4.29,overcast clouds,4.57,overcast clouds,No
+2024-11-27 17:28:06,Wednesday,shared sauna,14,41,4.29,overcast clouds,4.57,overcast clouds,No
+2024-11-27 17:31:48,Wednesday,women only,14,41,4.65,overcast clouds,4.89,overcast clouds,No
+2024-11-27 17:35:31,Wednesday,women only,11,43,4.29,overcast clouds,4.57,overcast clouds,No
+2024-11-27 17:39:13,Wednesday,women only,18,48,4.65,overcast clouds,4.89,overcast clouds,No
+2024-11-27 17:42:56,Wednesday,women only,18,48,4.65,overcast clouds,4.89,overcast clouds,No
+2024-11-27 17:46:38,Wednesday,women only,21,47,4.65,overcast clouds,4.89,overcast clouds,No
+2024-11-27 17:50:21,Wednesday,women only,22,48,4.65,overcast clouds,4.89,overcast clouds,No
+2024-11-27 17:54:03,Wednesday,women only,22,48,4.65,overcast clouds,4.89,overcast clouds,No
+2024-11-27 17:57:45,Wednesday,women only,24,49,4.65,overcast clouds,4.89,overcast clouds,No
+2024-11-27 18:01:28,Wednesday,women only,25,42,4.72,overcast clouds,4.99,overcast clouds,No
+2024-11-27 18:05:10,Wednesday,women only,25,42,4.72,overcast clouds,4.99,overcast clouds,No
+2024-11-27 18:08:53,Wednesday,women only,26,27,4.45,overcast clouds,4.74,overcast clouds,No
+2024-11-27 18:12:35,Wednesday,women only,26,27,4.45,overcast clouds,4.74,overcast clouds,No
+2024-11-27 18:16:18,Wednesday,women only,27,23,4.45,overcast clouds,4.74,overcast clouds,No
+2024-11-27 18:20:01,Wednesday,women only,27,23,3.87,overcast clouds,4.44,overcast clouds,No
+2024-11-27 18:23:43,Wednesday,women only,27,23,3.87,overcast clouds,4.12,overcast clouds,No
+2024-11-27 18:27:26,Wednesday,women only,28,19,3.87,overcast clouds,4.12,overcast clouds,No
+2024-11-27 18:31:08,Wednesday,women only,28,19,3.87,overcast clouds,4.12,overcast clouds,No
+2024-11-27 18:34:50,Wednesday,women only,27,17,3.87,overcast clouds,4.12,overcast clouds,No
+2024-11-27 18:38:33,Wednesday,women only,26,17,3.87,overcast clouds,4.12,overcast clouds,No
+2024-11-27 18:42:15,Wednesday,women only,26,17,3.87,overcast clouds,4.12,overcast clouds,No
+2024-11-27 18:45:58,Wednesday,women only,23,18,3.87,overcast clouds,4.42,overcast clouds,No
+2024-11-27 18:49:40,Wednesday,women only,22,18,3.87,overcast clouds,4.42,overcast clouds,No
+2024-11-27 18:53:22,Wednesday,women only,22,18,4,overcast clouds,4.42,overcast clouds,No
+2024-11-27 18:57:05,Wednesday,women only,23,17,4,overcast clouds,3.87,overcast clouds,No
+2024-11-27 19:00:47,Wednesday,women only,20,21,3.59,overcast clouds,3.87,overcast clouds,No
+2024-11-27 19:04:29,Wednesday,women only,20,21,3.59,overcast clouds,3.86,overcast clouds,No
+2024-11-27 19:08:12,Wednesday,women only,19,22,3.45,overcast clouds,3.86,overcast clouds,No
+2024-11-27 19:11:54,Wednesday,women only,19,22,3.45,overcast clouds,3.69,overcast clouds,No
+2024-11-27 19:15:37,Wednesday,women only,16,23,3.45,overcast clouds,3.69,overcast clouds,No
+2024-11-27 19:19:19,Wednesday,women only,16,25,3.45,overcast clouds,3.69,overcast clouds,No
+2024-11-27 19:23:01,Wednesday,women only,16,25,3.44,overcast clouds,3.69,overcast clouds,No
+2024-11-27 19:26:44,Wednesday,women only,11,21,3.44,overcast clouds,3.69,overcast clouds,No
+2024-11-27 19:30:26,Wednesday,women only,11,21,3.13,overcast clouds,3.33,overcast clouds,No
+2024-11-27 19:34:09,Wednesday,men only,5,18,3.06,overcast clouds,3.41,overcast clouds,No
+2024-11-27 19:37:51,Wednesday,men only,13,19,3.13,overcast clouds,3.41,overcast clouds,No
+2024-11-27 19:41:33,Wednesday,men only,13,19,3.13,overcast clouds,3.41,overcast clouds,No
+2024-11-27 19:45:16,Wednesday,men only,19,23,3.12,overcast clouds,3.4,overcast clouds,No
+2024-11-27 19:48:58,Wednesday,men only,19,21,3.12,overcast clouds,3.43,overcast clouds,No
+2024-11-27 19:52:40,Wednesday,men only,19,21,3.04,overcast clouds,3.43,overcast clouds,No
+2024-11-27 19:56:23,Wednesday,men only,26,18,3.04,overcast clouds,3.33,overcast clouds,No
+2024-11-27 20:00:05,Wednesday,men only,26,18,3.06,overcast clouds,3.33,overcast clouds,No
+2024-11-27 20:03:47,Wednesday,men only,27,13,3.06,overcast clouds,3.31,overcast clouds,No
+2024-11-27 20:07:30,Wednesday,men only,27,13,3.18,overcast clouds,3.31,overcast clouds,No
+2024-11-27 20:11:12,Wednesday,men only,27,14,3.18,overcast clouds,3.31,overcast clouds,No
+2024-11-27 20:14:54,Wednesday,men only,27,14,3.18,overcast clouds,3.54,overcast clouds,No
+2024-11-27 20:18:37,Wednesday,men only,27,18,3.73,overcast clouds,3.54,overcast clouds,No
+2024-11-27 20:22:19,Wednesday,men only,27,17,3.73,overcast clouds,3.88,overcast clouds,No
+2024-11-27 20:26:02,Wednesday,men only,27,17,3.61,overcast clouds,3.88,overcast clouds,No
+2024-11-27 20:29:44,Wednesday,men only,26,16,3.61,overcast clouds,3.68,overcast clouds,No
+2024-11-27 20:33:26,Wednesday,men only,26,16,3.77,overcast clouds,3.68,overcast clouds,No
+2024-11-27 20:37:09,Wednesday,men only,25,18,3.77,overcast clouds,3.85,overcast clouds,No
+2024-11-27 20:40:51,Wednesday,men only,25,18,3.59,overcast clouds,3.85,overcast clouds,No
+2024-11-27 20:44:34,Wednesday,men only,24,16,3.44,overcast clouds,3.69,overcast clouds,No
+2024-11-27 20:48:16,Wednesday,men only,24,16,3.56,overcast clouds,3.69,overcast clouds,No
+2024-11-27 20:51:58,Wednesday,men only,20,16,3.56,overcast clouds,3.69,overcast clouds,No
+2024-11-27 20:55:41,Wednesday,men only,15,14,3.56,overcast clouds,4.12,overcast clouds,No
+2024-11-27 20:59:23,Wednesday,men only,15,14,3.94,overcast clouds,4.53,overcast clouds,No
+2024-11-27 21:03:05,Wednesday,men only,10,11,3.94,overcast clouds,4.53,overcast clouds,No
+2024-11-27 21:06:48,Wednesday,men only,5,8,3.94,overcast clouds,4.09,overcast clouds,No
+2024-11-27 21:10:30,Wednesday,men only,5,8,4.19,overcast clouds,4.09,overcast clouds,No
+2024-11-27 21:14:12,Wednesday,men only,1,4,4.19,overcast clouds,4.63,overcast clouds,No
+2024-11-27 21:17:55,Wednesday,men only,0,2,4.3,overcast clouds,4.63,overcast clouds,No
+2024-11-27 21:21:37,Wednesday,men only,0,2,4.3,overcast clouds,4.63,overcast clouds,No
+2024-11-27 21:25:20,Wednesday,men only,0,0,3.98,overcast clouds,4.5,overcast clouds,No
+2024-11-27 21:29:02,Wednesday,men only,0,0,3.98,overcast clouds,3.88,overcast clouds,No

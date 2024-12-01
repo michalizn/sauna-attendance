@@ -12,7 +12,7 @@ layout = html.Div([
         dbc.Row([
             dbc.Col([
                 html.Div([
-                    html.H1("Welcome to Sport Monitoring App"),
+                    html.H1("Welcome to Sauna Analytics App"),
                 ], style={'textAlign': 'center'}),
             ]),
         ]),
