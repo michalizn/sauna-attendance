@@ -1,0 +1,95 @@
+timestamp,day,session_type,persons_sauna,persons_pool,temperature_home,weather_description_home,temperature_sauna,weather_description_sauna,national_holiday
+2024-12-06 15:45:18,Friday,shared sauna,9,14,0.55,overcast clouds,0.81,overcast clouds,No
+2024-12-06 15:49:02,Friday,shared sauna,9,15,0.55,overcast clouds,0.81,overcast clouds,No
+2024-12-06 15:52:46,Friday,shared sauna,9,15,0.55,overcast clouds,0.81,overcast clouds,No
+2024-12-06 15:56:29,Friday,shared sauna,8,16,0.55,overcast clouds,0.81,overcast clouds,No
+2024-12-06 16:00:13,Friday,shared sauna,7,13,0.55,overcast clouds,0.81,overcast clouds,No
+2024-12-06 16:03:56,Friday,shared sauna,7,13,0.55,overcast clouds,0.81,overcast clouds,No
+2024-12-06 16:07:40,Friday,shared sauna,0,0,0.55,overcast clouds,0.81,overcast clouds,No
+2024-12-06 16:11:23,Friday,shared sauna,9,17,0.55,overcast clouds,0.81,overcast clouds,No
+2024-12-06 16:15:07,Friday,shared sauna,9,17,0.61,light snow,0.88,overcast clouds,No
+2024-12-06 16:18:49,Friday,shared sauna,9,14,0.61,light snow,0.88,overcast clouds,No
+2024-12-06 16:22:32,Friday,shared sauna,9,14,0.55,overcast clouds,0.81,overcast clouds,No
+2024-12-06 16:26:15,Friday,shared sauna,8,16,0.55,light snow,0.81,overcast clouds,No
+2024-12-06 16:29:58,Friday,shared sauna,8,28,0.55,light snow,0.81,light snow,No
+2024-12-06 16:33:41,Friday,shared sauna,8,28,0.55,light snow,0.81,light snow,No
+2024-12-06 16:37:23,Friday,shared sauna,9,30,0.55,light snow,0.81,light snow,No
+2024-12-06 16:41:06,Friday,shared sauna,8,33,0.55,light snow,0.81,light snow,No
+2024-12-06 16:44:49,Friday,shared sauna,8,33,0.55,light snow,0.81,light snow,No
+2024-12-06 16:48:34,Friday,shared sauna,8,33,0.55,light snow,0.81,light snow,No
+2024-12-06 16:52:17,Friday,shared sauna,8,33,0.55,light snow,0.81,light snow,No
+2024-12-06 16:55:59,Friday,shared sauna,8,33,0.55,light snow,0.81,light snow,No
+2024-12-06 16:59:42,Friday,shared sauna,8,27,0.55,light snow,0.81,light snow,No
+2024-12-06 17:03:25,Friday,shared sauna,9,27,0.55,light snow,0.81,light snow,No
+2024-12-06 17:07:08,Friday,shared sauna,9,27,0.55,light snow,0.81,light snow,No
+2024-12-06 17:10:50,Friday,shared sauna,10,30,1.39,snow,1.66,snow,No
+2024-12-06 17:14:33,Friday,shared sauna,10,30,1.39,snow,1.66,snow,No
+2024-12-06 17:18:16,Friday,shared sauna,13,35,1.39,snow,1.66,snow,No
+2024-12-06 17:21:59,Friday,shared sauna,13,35,1.39,snow,1.66,snow,No
+2024-12-06 17:25:41,Friday,shared sauna,19,35,1.39,snow,1.66,snow,No
+2024-12-06 17:29:24,Friday,shared sauna,21,32,1.39,snow,1.66,snow,No
+2024-12-06 17:33:07,Friday,shared sauna,21,32,1.39,snow,1.66,snow,No
+2024-12-06 17:36:50,Friday,shared sauna,21,26,1.39,snow,1.66,snow,No
+2024-12-06 17:40:33,Friday,shared sauna,21,20,1.39,snow,1.66,snow,No
+2024-12-06 17:44:17,Friday,shared sauna,21,20,1.39,snow,1.66,snow,No
+2024-12-06 17:48:00,Friday,shared sauna,22,22,1.39,snow,1.66,snow,No
+2024-12-06 17:51:43,Friday,shared sauna,20,26,1.39,snow,1.66,snow,No
+2024-12-06 17:55:26,Friday,shared sauna,20,26,1.39,snow,1.66,snow,No
+2024-12-06 17:59:09,Friday,shared sauna,22,30,1.39,snow,1.66,snow,No
+2024-12-06 18:02:52,Friday,shared sauna,22,30,1.39,snow,1.66,snow,No
+2024-12-06 18:06:34,Friday,shared sauna,24,27,1.39,snow,1.66,snow,No
+2024-12-06 18:10:17,Friday,shared sauna,25,26,1.39,snow,1.66,snow,No
+2024-12-06 18:14:00,Friday,shared sauna,25,26,1.39,snow,1.66,snow,No
+2024-12-06 18:17:43,Friday,shared sauna,24,28,1.39,snow,1.66,snow,No
+2024-12-06 18:21:26,Friday,shared sauna,24,28,1.39,snow,1.66,snow,No
+2024-12-06 18:25:08,Friday,shared sauna,22,35,1.39,snow,1.66,snow,No
+2024-12-06 18:28:51,Friday,shared sauna,23,34,1.39,snow,1.66,snow,No
+2024-12-06 18:32:34,Friday,shared sauna,23,34,1.39,snow,1.66,snow,No
+2024-12-06 18:36:20,Friday,shared sauna,24,34,1.39,snow,1.66,snow,No
+2024-12-06 18:40:03,Friday,shared sauna,27,32,1.39,snow,1.66,snow,No
+2024-12-06 18:43:46,Friday,shared sauna,27,32,1.39,snow,1.66,snow,No
+2024-12-06 18:47:29,Friday,shared sauna,23,35,1.39,snow,1.66,snow,No
+2024-12-06 18:51:11,Friday,shared sauna,23,36,1.39,snow,1.66,snow,No
+2024-12-06 18:54:55,Friday,shared sauna,23,36,1.39,snow,1.11,snow,No
+2024-12-06 18:58:38,Friday,shared sauna,24,33,0.84,snow,1.11,light snow,No
+2024-12-06 19:02:21,Friday,shared sauna,26,34,0.84,light snow,1.11,light snow,No
+2024-12-06 19:06:04,Friday,shared sauna,26,34,0.84,light snow,1.11,light snow,No
+2024-12-06 19:09:47,Friday,shared sauna,25,31,0.84,light snow,1.11,light snow,No
+2024-12-06 19:13:30,Friday,shared sauna,25,33,0.84,light snow,1.11,light snow,No
+2024-12-06 19:17:13,Friday,shared sauna,25,33,0.84,light snow,1.11,light snow,No
+2024-12-06 19:20:55,Friday,shared sauna,28,27,0.84,light snow,1.11,light snow,No
+2024-12-06 19:24:38,Friday,shared sauna,36,25,0.84,light snow,1.11,light snow,No
+2024-12-06 19:28:21,Friday,shared sauna,36,25,0.84,light snow,1.11,light snow,No
+2024-12-06 19:32:04,Friday,shared sauna,38,28,0.84,light snow,1.11,light snow,No
+2024-12-06 19:35:46,Friday,shared sauna,38,28,0.84,light snow,1.11,light snow,No
+2024-12-06 19:39:29,Friday,shared sauna,41,26,0.84,light snow,1.11,light snow,No
+2024-12-06 19:43:12,Friday,shared sauna,38,28,0.84,light snow,1.11,light snow,No
+2024-12-06 19:46:54,Friday,shared sauna,38,28,0.84,light snow,1.11,light snow,No
+2024-12-06 19:50:37,Friday,shared sauna,39,30,0.84,light snow,1.11,light snow,No
+2024-12-06 19:54:20,Friday,shared sauna,39,30,0.84,light snow,1.11,light snow,No
+2024-12-06 19:58:03,Friday,shared sauna,37,24,0.84,light snow,1.11,light snow,No
+2024-12-06 20:01:46,Friday,shared sauna,36,22,0.84,light snow,1.11,light snow,No
+2024-12-06 20:05:28,Friday,shared sauna,36,22,0.84,light snow,1.11,light snow,No
+2024-12-06 20:09:11,Friday,shared sauna,35,22,0.84,light snow,1.11,light snow,No
+2024-12-06 20:12:55,Friday,shared sauna,35,22,0.84,light snow,1.11,light snow,No
+2024-12-06 20:16:37,Friday,shared sauna,34,22,0.84,light snow,1.11,light snow,No
+2024-12-06 20:20:20,Friday,shared sauna,30,25,0.84,light snow,1.11,light snow,No
+2024-12-06 20:24:03,Friday,shared sauna,30,25,0.84,light snow,1.11,light snow,No
+2024-12-06 20:27:46,Friday,shared sauna,28,20,0.84,light snow,1.11,light snow,No
+2024-12-06 20:31:28,Friday,shared sauna,28,20,0.84,light snow,1.11,light snow,No
+2024-12-06 20:35:11,Friday,shared sauna,24,18,0.84,light snow,1.11,light snow,No
+2024-12-06 20:38:54,Friday,shared sauna,0,0,0.84,light snow,1.11,light snow,No
+2024-12-06 20:42:37,Friday,shared sauna,19,18,0.84,snow,1.11,snow,No
+2024-12-06 20:46:19,Friday,shared sauna,19,18,0.84,snow,1.11,snow,No
+2024-12-06 20:50:02,Friday,shared sauna,20,15,0.84,snow,1.11,snow,No
+2024-12-06 20:53:45,Friday,shared sauna,0,0,0.84,light snow,1.11,light snow,No
+2024-12-06 20:57:28,Friday,shared sauna,17,14,0.84,light snow,1.11,light snow,No
+2024-12-06 21:01:11,Friday,shared sauna,17,11,0.84,light snow,1.11,light snow,No
+2024-12-06 21:04:54,Friday,shared sauna,17,11,0.84,light snow,1.11,light snow,No
+2024-12-06 21:08:36,Friday,shared sauna,15,11,0.84,light snow,1.11,light snow,No
+2024-12-06 21:12:19,Friday,shared sauna,15,11,0.84,light snow,1.11,light snow,No
+2024-12-06 21:16:02,Friday,shared sauna,9,6,0.84,light snow,1.11,light snow,No
+2024-12-06 21:19:45,Friday,shared sauna,9,6,0.84,light snow,1.11,light snow,No
+2024-12-06 21:23:27,Friday,shared sauna,1,4,0.84,light snow,1.11,light snow,No
+2024-12-06 21:27:10,Friday,shared sauna,1,4,0.84,light snow,1.11,light snow,No
+2024-12-06 21:30:53,Friday,shared sauna,0,0,0.84,light snow,1.11,light snow,No

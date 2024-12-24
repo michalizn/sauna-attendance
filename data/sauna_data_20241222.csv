@@ -1,0 +1,144 @@
+timestamp,day,session_type,persons_sauna,persons_pool,temperature_home,weather_description_home,temperature_sauna,weather_description_sauna,national_holiday
+2024-12-22 12:39:40,Sunday,shared sauna,2,23,-0.28,light snow,0.35,light snow,No
+2024-12-22 12:43:23,Sunday,shared sauna,4,21,-0.28,light snow,0.35,light snow,No
+2024-12-22 12:47:07,Sunday,shared sauna,4,21,-0.28,light snow,0.35,light snow,No
+2024-12-22 12:50:50,Sunday,shared sauna,4,13,0,light snow,0.65,light snow,No
+2024-12-22 12:54:33,Sunday,shared sauna,4,13,0,light snow,0.65,light snow,No
+2024-12-22 12:58:17,Sunday,shared sauna,4,13,0,light snow,0.65,light snow,No
+2024-12-22 13:02:01,Sunday,shared sauna,5,16,0,light snow,0.65,light snow,No
+2024-12-22 13:05:44,Sunday,shared sauna,4,20,0,light snow,0.65,light snow,No
+2024-12-22 13:09:27,Sunday,shared sauna,4,20,0,light snow,0.65,light snow,No
+2024-12-22 13:13:10,Sunday,shared sauna,3,23,0,light snow,0.65,light snow,No
+2024-12-22 13:16:53,Sunday,shared sauna,3,23,0,light snow,0.65,light snow,No
+2024-12-22 13:20:36,Sunday,shared sauna,3,21,0,light snow,0.65,light snow,No
+2024-12-22 13:24:20,Sunday,shared sauna,4,22,0,light snow,0.65,light snow,No
+2024-12-22 13:28:03,Sunday,shared sauna,4,22,0,light snow,0.65,light snow,No
+2024-12-22 13:31:46,Sunday,shared sauna,4,22,0,light snow,0.65,light snow,No
+2024-12-22 13:35:29,Sunday,shared sauna,4,23,0.19,light snow,0.82,light snow,No
+2024-12-22 13:39:13,Sunday,shared sauna,4,23,0.19,light snow,0.82,light snow,No
+2024-12-22 13:42:56,Sunday,shared sauna,4,30,0.19,light snow,0.82,light snow,No
+2024-12-22 13:46:39,Sunday,shared sauna,4,38,0.19,light snow,0.82,light snow,No
+2024-12-22 13:50:22,Sunday,shared sauna,4,38,0.19,light snow,0.82,light snow,No
+2024-12-22 13:54:05,Sunday,shared sauna,4,35,0.19,light snow,0.82,light snow,No
+2024-12-22 13:57:48,Sunday,shared sauna,7,39,0.19,light snow,0.82,light snow,No
+2024-12-22 14:01:31,Sunday,shared sauna,7,39,0.19,light snow,0.82,light snow,No
+2024-12-22 14:05:14,Sunday,shared sauna,9,42,0.19,light snow,0.82,light snow,No
+2024-12-22 14:08:57,Sunday,shared sauna,9,38,0.19,light snow,0.82,light snow,No
+2024-12-22 14:12:41,Sunday,shared sauna,9,38,0.19,light snow,0.82,light snow,No
+2024-12-22 14:16:24,Sunday,shared sauna,9,44,0.19,light snow,0.82,light snow,No
+2024-12-22 14:20:07,Sunday,shared sauna,11,46,0.19,snow,0.82,snow,No
+2024-12-22 14:23:50,Sunday,shared sauna,11,46,0.19,snow,0.82,snow,No
+2024-12-22 14:27:33,Sunday,shared sauna,12,51,0.19,snow,0.82,snow,No
+2024-12-22 14:31:16,Sunday,shared sauna,15,56,0.42,snow,1.11,snow,No
+2024-12-22 14:35:00,Sunday,shared sauna,15,56,0.42,snow,1.11,snow,No
+2024-12-22 14:38:44,Sunday,shared sauna,15,64,0.42,snow,1.11,snow,No
+2024-12-22 14:42:31,Sunday,shared sauna,19,64,3.61,light rain,1.11,snow,No
+2024-12-22 14:46:16,Sunday,shared sauna,19,64,3.61,light rain,3.88,light rain,No
+2024-12-22 14:50:00,Sunday,shared sauna,21,66,3.06,moderate rain,3.33,moderate rain,No
+2024-12-22 14:53:43,Sunday,shared sauna,19,66,3.06,moderate rain,3.33,moderate rain,No
+2024-12-22 14:57:25,Sunday,shared sauna,18,67,3.06,moderate rain,3.33,moderate rain,No
+2024-12-22 15:01:08,Sunday,shared sauna,18,67,3.06,light rain,3.33,light rain,No
+2024-12-22 15:04:51,Sunday,shared sauna,19,71,3.06,light rain,3.33,light rain,No
+2024-12-22 15:08:38,Sunday,shared sauna,21,77,2.5,light rain,2.77,light rain,No
+2024-12-22 15:12:21,Sunday,shared sauna,21,77,2.5,light rain,2.77,light rain,No
+2024-12-22 15:16:04,Sunday,shared sauna,21,74,2.5,light rain,2.77,light rain,No
+2024-12-22 15:19:46,Sunday,shared sauna,21,71,2.5,light rain,2.77,light rain,No
+2024-12-22 15:23:29,Sunday,shared sauna,21,71,2.5,light rain,2.77,light rain,No
+2024-12-22 15:27:12,Sunday,shared sauna,25,69,1.95,light rain,2.22,light rain,No
+2024-12-22 15:30:55,Sunday,shared sauna,26,62,1.95,moderate rain,2.22,moderate rain,No
+2024-12-22 15:34:39,Sunday,shared sauna,26,62,1.95,moderate rain,2.22,moderate rain,No
+2024-12-22 15:38:22,Sunday,shared sauna,24,63,1.95,moderate rain,2.22,moderate rain,No
+2024-12-22 15:42:05,Sunday,shared sauna,0,0,1.95,moderate rain,2.22,moderate rain,No
+2024-12-22 15:45:48,Sunday,shared sauna,0,0,1.95,moderate rain,2.22,moderate rain,No
+2024-12-22 15:49:32,Sunday,shared sauna,26,71,1.95,moderate rain,2.22,moderate rain,No
+2024-12-22 15:53:15,Sunday,shared sauna,28,71,1.95,moderate rain,2.22,moderate rain,No
+2024-12-22 15:56:58,Sunday,shared sauna,28,71,1.95,moderate rain,2.22,moderate rain,No
+2024-12-22 16:00:41,Sunday,shared sauna,30,70,1.95,moderate rain,2.22,moderate rain,No
+2024-12-22 16:04:24,Sunday,shared sauna,28,60,1.95,light rain,2.22,light rain,No
+2024-12-22 16:08:07,Sunday,shared sauna,0,0,1.95,light rain,2.22,light rain,No
+2024-12-22 16:11:50,Sunday,shared sauna,32,60,1.95,light rain,2.22,light rain,No
+2024-12-22 16:15:33,Sunday,shared sauna,31,61,1.95,light rain,2.22,light rain,No
+2024-12-22 16:19:16,Sunday,shared sauna,30,62,1.39,snow,1.66,snow,No
+2024-12-22 16:22:59,Sunday,shared sauna,30,62,1.39,snow,1.66,snow,No
+2024-12-22 16:26:45,Sunday,shared sauna,30,61,1.39,snow,1.66,snow,No
+2024-12-22 16:30:28,Sunday,shared sauna,25,63,1.39,snow,1.66,snow,No
+2024-12-22 16:34:11,Sunday,shared sauna,25,63,1.39,snow,1.66,snow,No
+2024-12-22 16:37:54,Sunday,shared sauna,25,56,1.39,snow,1.66,snow,No
+2024-12-22 16:41:37,Sunday,shared sauna,25,61,1.39,snow,1.66,snow,No
+2024-12-22 16:45:20,Sunday,shared sauna,25,61,1.39,snow,1.66,snow,No
+2024-12-22 16:49:03,Sunday,shared sauna,24,61,1.39,snow,1.66,snow,No
+2024-12-22 16:52:46,Sunday,shared sauna,24,57,1.39,snow,1.66,snow,No
+2024-12-22 16:56:29,Sunday,shared sauna,24,57,1.39,snow,1.66,snow,No
+2024-12-22 17:00:12,Sunday,shared sauna,22,60,1.39,snow,1.66,snow,No
+2024-12-22 17:03:55,Sunday,shared sauna,0,0,1.39,snow,1.66,snow,No
+2024-12-22 17:07:38,Sunday,shared sauna,22,72,1.39,snow,1.66,snow,No
+2024-12-22 17:11:21,Sunday,shared sauna,23,73,1.39,snow,1.66,snow,No
+2024-12-22 17:15:04,Sunday,shared sauna,23,67,1.39,snow,1.66,light snow,No
+2024-12-22 17:18:47,Sunday,shared sauna,23,67,1.39,light snow,1.66,light snow,No
+2024-12-22 17:22:30,Sunday,shared sauna,24,70,1.39,light snow,1.66,light snow,No
+2024-12-22 17:26:13,Sunday,shared sauna,23,66,1.39,light snow,1.66,light snow,No
+2024-12-22 17:29:56,Sunday,shared sauna,23,66,1.39,light snow,1.66,light snow,No
+2024-12-22 17:33:39,Sunday,shared sauna,28,65,1.39,light snow,1.66,light snow,No
+2024-12-22 17:37:22,Sunday,shared sauna,24,63,1.39,light snow,1.66,light snow,No
+2024-12-22 17:41:05,Sunday,shared sauna,24,63,1.39,light snow,1.66,overcast clouds,No
+2024-12-22 17:44:48,Sunday,shared sauna,21,69,1.39,light snow,1.66,light snow,No
+2024-12-22 17:48:31,Sunday,shared sauna,21,68,1.39,light snow,1.66,light snow,No
+2024-12-22 17:52:13,Sunday,shared sauna,21,68,1.39,overcast clouds,1.66,overcast clouds,No
+2024-12-22 17:55:56,Sunday,shared sauna,20,61,1.39,overcast clouds,1.66,overcast clouds,No
+2024-12-22 17:59:39,Sunday,shared sauna,21,54,1.39,overcast clouds,1.66,overcast clouds,No
+2024-12-22 18:03:22,Sunday,shared sauna,21,54,1.39,overcast clouds,1.66,overcast clouds,No
+2024-12-22 18:07:05,Sunday,shared sauna,22,55,1.39,light snow,1.66,overcast clouds,No
+2024-12-22 18:10:48,Sunday,shared sauna,24,60,1.39,light snow,1.66,light snow,No
+2024-12-22 18:14:31,Sunday,shared sauna,24,60,1.39,snow,1.66,light snow,No
+2024-12-22 18:18:14,Sunday,shared sauna,24,62,1.39,snow,1.66,light snow,No
+2024-12-22 18:21:57,Sunday,shared sauna,27,65,1.39,light snow,1.66,light snow,No
+2024-12-22 18:25:40,Sunday,shared sauna,27,65,1.39,light snow,1.66,light snow,No
+2024-12-22 18:29:23,Sunday,shared sauna,30,60,1.39,light snow,1.66,light snow,No
+2024-12-22 18:33:05,Sunday,shared sauna,0,0,1.39,light snow,1.66,light snow,No
+2024-12-22 18:36:48,Sunday,shared sauna,32,61,1.39,light snow,1.66,light snow,No
+2024-12-22 18:40:32,Sunday,shared sauna,38,53,1.39,light snow,1.66,light snow,No
+2024-12-22 18:44:15,Sunday,shared sauna,40,49,1.39,light snow,1.66,light snow,No
+2024-12-22 18:48:03,Sunday,shared sauna,40,49,1.39,light snow,1.66,light snow,No
+2024-12-22 18:51:46,Sunday,shared sauna,41,46,1.39,light snow,1.66,light snow,No
+2024-12-22 18:55:29,Sunday,shared sauna,37,52,1.39,light snow,1.66,snow,No
+2024-12-22 18:59:13,Sunday,shared sauna,37,48,1.39,overcast clouds,1.66,snow,No
+2024-12-22 19:02:56,Sunday,shared sauna,37,48,1.39,snow,1.66,snow,No
+2024-12-22 19:06:39,Sunday,shared sauna,33,43,1.39,overcast clouds,1.66,snow,No
+2024-12-22 19:10:22,Sunday,shared sauna,33,43,1.39,overcast clouds,1.66,light snow,No
+2024-12-22 19:14:05,Sunday,shared sauna,34,39,1.39,light snow,1.66,light snow,No
+2024-12-22 19:17:48,Sunday,shared sauna,34,39,1.39,light snow,1.66,light snow,No
+2024-12-22 19:21:31,Sunday,shared sauna,33,37,1.39,light snow,1.66,light snow,No
+2024-12-22 19:25:13,Sunday,shared sauna,37,36,1.39,light snow,1.66,light snow,No
+2024-12-22 19:28:56,Sunday,shared sauna,34,30,1.39,light snow,1.66,light snow,No
+2024-12-22 19:32:39,Sunday,shared sauna,34,30,1.39,light snow,1.66,light snow,No
+2024-12-22 19:36:22,Sunday,shared sauna,33,30,1.39,light snow,1.66,light snow,No
+2024-12-22 19:40:05,Sunday,shared sauna,30,28,1.39,light snow,1.66,light snow,No
+2024-12-22 19:43:48,Sunday,shared sauna,30,28,1.39,light snow,1.66,light snow,No
+2024-12-22 19:47:31,Sunday,shared sauna,30,33,1.39,light snow,1.66,light snow,No
+2024-12-22 19:51:14,Sunday,shared sauna,0,0,1.39,light snow,1.66,light snow,No
+2024-12-22 19:54:56,Sunday,shared sauna,35,32,1.39,light snow,1.66,light snow,No
+2024-12-22 19:58:39,Sunday,shared sauna,36,31,1.39,light snow,1.66,light snow,No
+2024-12-22 20:02:23,Sunday,shared sauna,38,27,1.39,light snow,1.66,light snow,No
+2024-12-22 20:06:06,Sunday,shared sauna,38,27,1.39,light snow,1.66,light snow,No
+2024-12-22 20:09:49,Sunday,shared sauna,36,23,1.39,light snow,1.66,light snow,No
+2024-12-22 20:13:32,Sunday,shared sauna,34,22,1.39,light snow,1.66,light snow,No
+2024-12-22 20:17:15,Sunday,shared sauna,34,22,1.39,light snow,1.66,light snow,No
+2024-12-22 20:20:58,Sunday,shared sauna,0,0,1.39,light snow,1.66,light snow,No
+2024-12-22 20:24:41,Sunday,shared sauna,33,24,1.39,light snow,1.66,light snow,No
+2024-12-22 20:28:25,Sunday,shared sauna,28,26,1.39,overcast clouds,1.66,overcast clouds,No
+2024-12-22 20:32:07,Sunday,shared sauna,25,25,1.39,overcast clouds,1.66,overcast clouds,No
+2024-12-22 20:35:51,Sunday,shared sauna,25,25,1.39,light snow,1.66,light snow,No
+2024-12-22 20:39:33,Sunday,shared sauna,24,28,1.39,light snow,1.66,light snow,No
+2024-12-22 20:43:17,Sunday,shared sauna,17,31,1.39,light snow,1.66,light snow,No
+2024-12-22 20:47:03,Sunday,shared sauna,17,31,1.39,light snow,1.66,light snow,No
+2024-12-22 20:50:46,Sunday,shared sauna,14,28,1.39,light snow,1.66,light snow,No
+2024-12-22 20:54:29,Sunday,shared sauna,14,28,1.39,light snow,1.66,light snow,No
+2024-12-22 20:58:13,Sunday,shared sauna,0,0,1.39,light snow,1.66,light snow,No
+2024-12-22 21:01:56,Sunday,shared sauna,11,22,1.39,light snow,1.66,light snow,No
+2024-12-22 21:05:40,Sunday,shared sauna,11,22,1.39,light snow,1.66,light snow,No
+2024-12-22 21:09:23,Sunday,shared sauna,8,13,1.39,light snow,1.66,light snow,No
+2024-12-22 21:13:06,Sunday,shared sauna,8,13,1.39,light snow,1.66,light snow,No
+2024-12-22 21:16:49,Sunday,shared sauna,6,5,1.39,light snow,1.66,light snow,No
+2024-12-22 21:20:37,Sunday,shared sauna,6,5,1.39,light snow,1.66,light snow,No
+2024-12-22 21:24:21,Sunday,shared sauna,0,0,1.39,light snow,1.66,light snow,No
+2024-12-22 21:28:04,Sunday,shared sauna,0,0,1.39,light snow,1.66,light snow,No
